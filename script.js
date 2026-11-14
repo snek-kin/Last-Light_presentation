@@ -24272,6 +24272,16 @@ void main() {
             i.start(),
             i.stop(Ae.currentTime + 0.9));
         }
+        function toggleBackgroundMusic() {
+          if (Mi !== fo.length - 1) return;
+          let music = Be('#background-music');
+          if (music.paused) {
+            music.volume = 0.35;
+            music.play().catch((error) => console.error('Background music could not be played:', error));
+          } else {
+            music.pause();
+          }
+        }
         addEventListener('keydown', (i) => {
           let t = i.key;
           (t === 'ArrowRight' || t === ' '
@@ -24282,7 +24292,8 @@ void main() {
                 ? document.fullscreenElement
                   ? document.exitFullscreen()
                   : document.documentElement.requestFullscreen()
-                : (t === 'm' || t === 'M') && (Xg(), (Xl ^= 1), (Ae.g.gain.value = Xl ? 0 : 0.05)),
+                : (t === 'm' || t === 'M') &&
+                  (Xg(), (Xl ^= 1), (Ae.g.gain.value = Xl ? 0 : 0.05), toggleBackgroundMusic()),
             t === ' ' && i.preventDefault());
         });
         var Yg = Array.from({ length: Jl }, (i, t) => [
