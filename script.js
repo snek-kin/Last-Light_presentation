@@ -23701,9 +23701,9 @@ void main() {
         si.setSize(ro, ao, !1);
         si.setPixelRatio(1);
         si.shadowMap.enabled = !0;
-        si.shadowMap.type = aa;
+        si.shadowMap.type = Ls;
         si.toneMapping = Ds;
-        si.toneMappingExposure = 1.15;
+        si.toneMappingExposure = 1.3;
         var Ee = new ms();
         Ee.background = new Ut(66314);
         Ee.fog = new ps(66314, 0.03);
@@ -23767,28 +23767,62 @@ void main() {
           for (let e = 0; e < 262144; e++) {
             let n = e % 512,
               s = e >> 9,
-              r = 140 + ze(n, s) * 75 + Hl(n * 0.04, s * 0.04) * 26;
-            t.data.set([r, r, r * 0.95, 255], e * 4);
+              grain = ze(n, s) * 75 + Hl(n * 0.04, s * 0.04) * 26,
+              r = 140 + grain;
+            t.data.set([r, r * 0.99, r * 0.96, 255], e * 4);
           }
           i.putImageData(t, 0, 0);
+          for (let e = 0; e < 42; e++) {
+            let n = ze(e, 14) * 512,
+              s = ze(e, 15) * 512,
+              r = 1 + ze(e, 16) * 5;
+            (i.beginPath(),
+              i.ellipse(n, s, r * 1.5, r, ze(e, 17), 0, 6.283),
+              (i.fillStyle = 'rgba(55,54,51,0.15)'),
+              i.fill(),
+              i.beginPath(),
+              i.ellipse(n - r * 0.18, s - r * 0.2, r, r * 0.62, ze(e, 17), Math.PI, 6.283),
+              (i.strokeStyle = 'rgba(238,232,218,0.12)'),
+              (i.lineWidth = 0.7),
+              i.stroke());
+          }
         }
         var Zs = new Wi(lo);
         Zs.wrapS = Zs.wrapT = Oi;
         Zs.repeat.set(70, 70);
         Zs.anisotropy = 4;
-        var au = new Me(oo, new On({ map: Zs, color: 12104360, roughness: 1 }));
+        var au = new Me(oo, new On({ map: Zs, color: 12171702, roughness: 1 }));
         au.receiveShadow = !0;
         Ee.add(au);
+        {
+          let i = new Qn(1, 7, 5),
+            t = new On({ color: 8158334, roughness: 1 });
+          for (let e = 0; e < 72; e++) {
+            let n = ze(e, 31) * 6.283,
+              s = 30 + ze(e, 32) * 205,
+              r = 0.45 + ze(e, 33) * 1.25,
+              a = Math.cos(n) * s,
+              o = Math.sin(n) * s,
+              c = new Me(i, t);
+            (c.position.set(a, ru(a, o) + r * 0.32, o),
+              c.scale.set(r * (0.8 + ze(e, 34) * 0.6), r * (0.55 + ze(e, 35) * 0.55), r),
+              (c.rotation.y = ze(e, 36) * 6.283),
+              (c.castShadow = !1),
+              (c.receiveShadow = !1),
+              Ee.add(c));
+          }
+        }
         var ri = new Ps(16769712, 0);
         ri.castShadow = !0;
         ri.shadow.mapSize.set(2048, 2048);
         var Js = ri.shadow.camera;
-        Js.left = Js.bottom = -70;
-        Js.right = Js.top = 70;
+        Js.left = Js.bottom = -130;
+        Js.right = Js.top = 130;
         Js.far = 400;
         ri.shadow.bias = -5e-4;
         Ee.add(ri, ri.target);
-        Ee.add(new Rs(2441338, 329226, 0.45));
+        var ambient = new Rs(0x8293a5, 0x4d453b, 0.95);
+        Ee.add(ambient);
         var ou = (i, t) => {
           let e = (i * Math.PI) / 180,
             n = (t * Math.PI) / 180;
@@ -23797,7 +23831,38 @@ void main() {
             Math.sin(e) * 150,
             Math.cos(e) * Math.cos(n) * 150,
           );
+          sunCore.position.copy(ri.position);
+          sunGlow.position.copy(ri.position);
         };
+        var sunCanvas = document.createElement('canvas');
+        sunCanvas.width = sunCanvas.height = 128;
+        {
+          let i = sunCanvas.getContext('2d'),
+            t = i.createRadialGradient(64, 64, 2, 64, 64, 64);
+          (t.addColorStop(0, 'rgba(255,249,217,0.95)'),
+            t.addColorStop(0.12, 'rgba(255,205,126,0.68)'),
+            t.addColorStop(0.38, 'rgba(255,147,76,0.2)'),
+            t.addColorStop(1, 'rgba(255,115,53,0)'),
+            (i.fillStyle = t),
+            i.fillRect(0, 0, 128, 128));
+        }
+        var sunTexture = new Wi(sunCanvas);
+        var sunCore = new Me(
+            new Qn(2.2, 24, 16),
+            new yn({ color: 16773582, fog: !1 }),
+          ),
+          sunGlow = new Me(
+            new pi(34, 34),
+            new yn({
+              map: sunTexture,
+              transparent: !0,
+              depthWrite: !1,
+              fog: !1,
+            }),
+          );
+        sunCore.position.copy(ri.position);
+        sunGlow.position.copy(ri.position);
+        Ee.add(sunGlow, sunCore);
         {
           let t = new Float32Array(6600);
           for (let n = 0; n < 2200; n++) {
@@ -23891,10 +23956,63 @@ void main() {
         );
         Qs.position.y = 0.5;
         Ee.add(Qs);
-        var ts = new Me(new Qn(10, 32, 24), new yn({ color: 2976991, fog: !1 }));
+        var earthCanvas = document.createElement('canvas');
+        earthCanvas.width = 512;
+        earthCanvas.height = 256;
+        {
+          let i = earthCanvas.getContext('2d'),
+            t = i.createLinearGradient(0, 0, 0, 256);
+          (t.addColorStop(0, '#123765'),
+            t.addColorStop(0.48, '#17639a'),
+            t.addColorStop(1, '#0b2b58'),
+            (i.fillStyle = t),
+            i.fillRect(0, 0, 512, 256),
+            (i.fillStyle = '#56845e'));
+          let e = (n) => {
+            i.beginPath();
+            n.forEach(([s, r], a) => (a ? i.lineTo(s, r) : i.moveTo(s, r)));
+            i.closePath();
+            i.fill();
+          };
+          (e([[52, 48], [71, 33], [101, 34], [117, 49], [143, 53], [150, 72], [133, 82], [128, 101], [111, 105], [101, 124], [83, 111], [79, 91], [62, 78]]),
+            e([[126, 116], [145, 123], [153, 145], [147, 168], [139, 190], [126, 214], [116, 196], [112, 175], [104, 151], [110, 132]]),
+            e([[222, 58], [237, 48], [258, 52], [272, 45], [294, 52], [318, 44], [345, 55], [370, 50], [393, 62], [420, 72], [414, 89], [393, 91], [377, 106], [358, 100], [342, 116], [326, 105], [306, 113], [291, 96], [275, 99], [263, 83], [244, 86], [233, 74]]),
+            e([[242, 98], [258, 101], [266, 121], [260, 145], [250, 169], [236, 187], [224, 173], [222, 151], [214, 131], [221, 110]]),
+            e([[351, 157], [369, 151], [386, 160], [396, 176], [387, 188], [371, 183], [359, 173]]),
+            e([[8, 235], [78, 228], [148, 236], [218, 228], [288, 238], [358, 229], [430, 236], [512, 227], [512, 256], [0, 256]]),
+            (i.fillStyle = 'rgba(190,220,239,0.38)'),
+            (i.lineWidth = 3));
+          for (let n = 0; n < 18; n++) {
+            let s = ze(n, 41) * 512,
+              r = 34 + ze(n, 42) * 180;
+            (i.beginPath(),
+              i.moveTo(s - r, 30 + ze(n, 43) * 196),
+              i.bezierCurveTo(
+                s - r * 0.3,
+                20 + ze(n, 44) * 210,
+                s + r * 0.3,
+                25 + ze(n, 45) * 205,
+                s + r,
+                25 + ze(n, 46) * 205,
+              ),
+              i.stroke());
+          }
+        }
+        var earthMap = new Wi(earthCanvas);
+        earthMap.wrapS = Oi;
+        var ts = new Me(
+            new Qn(10, 48, 32),
+            new On({ map: earthMap, color: 16777215, roughness: 0.94, metalness: 0, fog: !1 }),
+          ),
+          earthAtmosphere = new Me(
+            new Qn(10.55, 40, 28),
+            new yn({ color: 3988735, transparent: !0, opacity: 0.1, depthWrite: !1, fog: !1 }),
+          );
         ts.position.set(-90, 52, -170);
         ts.visible = !1;
-        Ee.add(ts);
+        earthAtmosphere.position.copy(ts.position);
+        earthAtmosphere.visible = !1;
+        Ee.add(ts, earthAtmosphere);
         var _o = new vs(
           new Te().setFromPoints([new z(0, 3.8, 0), ts.position]),
           new As({ color: 3527935, dashSize: 3, gapSize: 2, fog: !1 }),
@@ -23902,15 +24020,31 @@ void main() {
         _o.computeLineDistances();
         _o.visible = !1;
         Ee.add(_o);
-        var ho = 44,
-          uo = -30,
+        var ho = -20,
+          uo = -20,
           ji = new Me(
-            new tn(0.25, 0.25, 40, 12),
+            new tn(0.25, 0.25, 2.2, 12),
             new yn({ color: 4186309, transparent: !0, opacity: 0.7, fog: !1 }),
           );
-        ji.position.set(ho, ru(ho, uo) + 20, uo);
+        ji.position.set(ho, ru(ho, uo) + 1.1, uo);
         ji.visible = !1;
         Ee.add(ji);
+        var altLander = un.clone(!0);
+        altLander.position.set(ho, ru(ho, uo), uo);
+        altLander.visible = !1;
+        Ee.add(altLander);
+        var siteA = new Me(
+            new Ts(2.4, 3.2, 48).rotateX(-Math.PI / 2),
+            new yn({ color: 16745836, transparent: !0, opacity: 0.95, depthWrite: !1, fog: !1 }),
+          ),
+          siteB = new Me(
+            new Ts(2.4, 3.2, 48).rotateX(-Math.PI / 2),
+            new yn({ color: 4186309, transparent: !0, opacity: 0.95, depthWrite: !1, fog: !1 }),
+          );
+        siteA.position.set(0, ru(0, 0) + 0.12, 0);
+        siteB.position.set(ho, ru(ho, uo) + 0.12, uo);
+        siteA.visible = siteB.visible = !1;
+        Ee.add(siteA, siteB);
         var Xt = (i, t = '') => `class="a ${t}" style="--d:${i}s"`,
           fo = [
             { h: '<div class="s" data-t="z"></div>' },
@@ -23922,7 +24056,7 @@ void main() {
               i: 0.3,
               dim: 0,
               hud: 1,
-              h: `<div class="k" ${Xt(0.2)}>The problem</div><h2 ${Xt(0.4)}>The Moon's south pole is unforgiving</h2><ul style="margin-top:50px;width:900px"><li ${Xt(1)}><b class="g">Light</b> \u2014 the Sun barely rises; every ridge throws a long shadow</li><li ${Xt(1.6)}><b class="g">Terrain</b> \u2014 steep slopes and craters decide where a lander can stand</li><li ${Xt(2.2)}><b class="g">Power</b> \u2014 a limited battery must survive the shadow</li></ul>`,
+              h: `<div class="k" ${Xt(0.2)}>The challenge</div><h2 ${Xt(0.4)}>At the south pole, sunlight is a resource</h2><ul style="margin-top:50px;width:1080px"><li ${Xt(1)}><b class="g">Light</b> \u2014 the Sun skims the horizon</li><li ${Xt(1.6)}><b class="g">Terrain</b> \u2014 crater rims decide where a lander can stand</li><li ${Xt(2.2)}><b class="g">Power</b> \u2014 one long shadow can outlast the battery</li></ul>`,
             },
             {
               t: 'r',
@@ -23932,7 +24066,7 @@ void main() {
               i: 3,
               dim: 0,
               ring: 1,
-              h: `<div class="k" ${Xt(0.2)}>The solution</div><h1 ${Xt(0.4)} style="font-size:120px">LAST LIGHT</h1><p ${Xt(1)} style="margin-top:30px;max-width:1100px">Enter a landing point and a date. Get a clear verdict \u2014 <b class="ok">SUCCESS</b> or <b class="w">FAIL</b> \u2014 with the reason.</p><div class="row" style="width:1250px"><div class="card" ${Xt(1.5)}><b>Input</b><p class="mono">latitude \xB7 longitude \xB7 date</p></div><div class="card" ${Xt(1.8)}><b>Output</b><p>verdict + reason + a safer alternative</p></div></div>`,
+              h: `<div class="k" ${Xt(0.2)}>The approach</div><h1 ${Xt(0.4)} style="font-size:120px">LAST LIGHT</h1><p ${Xt(1)} style="margin-top:30px;max-width:1100px">Find ground where safe terrain, sunlight and stored energy align.</p><div class="row" style="width:1250px"><div class="card" ${Xt(1.5)}><b>Input</b><p class="mono">candidate site \xB7 mission date</p></div><div class="card" ${Xt(1.8)}><b>Output</b><p>clear verdict \xB7 key risk \xB7 safer option</p></div></div>`,
             },
             {
               t: 'u',
@@ -23942,7 +24076,7 @@ void main() {
               i: 1.6,
               dim: 0.2,
               link: 1,
-              h: `<div class="k" ${Xt(0.2)}>Four factors, one chain</div><div class="row" style="margin-top:560px"><div class="card" ${Xt(0.6)}><b>Terrain</b><p>slope limit <span class="g">15\xB0</span></p></div><div class="card" ${Xt(1.4)}><b>Sunlight</b><p>shadow hours over 24 h</p></div><div class="card" ${Xt(2.2)}><b>Energy</b><p>2000 Wh battery, min <span class="g">20%</span></p></div><div class="card" ${Xt(3)}><b>Communication</b><p>Earth visibility, informational</p></div></div>`,
+              h: `<div class="k" ${Xt(0.2)}>A site is more than a landing spot</div><h2 ${Xt(0.4)}>Four checks. One mission.</h2><div class="row" style="margin-top:300px"><div class="card" ${Xt(0.6)}><b>Terrain</b><p>relief &amp; slope</p></div><div class="card" ${Xt(1.4)}><b>Sunlight</b><p>illumination window</p></div><div class="card" ${Xt(2.2)}><b>Energy</b><p>battery reserve</p></div><div class="card" ${Xt(3)}><b>Visibility</b><p>Earth link context</p></div></div>`,
             },
             {
               t: 'z',
@@ -23952,18 +24086,18 @@ void main() {
               i: 3,
               dim: 0,
               scan: 1,
-              h: `<div class="k" ${Xt(0.2)}>How it works</div><h2 ${Xt(0.4)} class="a mono" style="font-size:54px">-89.45\xB0 \xB7 -136.5\xB0 \xB7 18 Nov 2026</h2><div class="row" style="margin-top:60px"><div class="card" ${Xt(1)}><b>1 \xB7 Plan</b><p>coordinates + date</p></div><div class="card" ${Xt(1.6)}><b>2 \xB7 Calculate</b><p class="mono">POST /api/mission/</p></div><div class="card" ${Xt(2.2)}><b>3 \xB7 24 hourly samples</b><p>light \xB7 energy \xB7 link</p></div><div class="card" ${Xt(2.8)} style="border-color:#ff8a4c"><b class="w">Verdict</b><p class="w" style="font-size:44px">FAIL \xB7 LOW_BATTERY</p></div></div>`,
+              h: `<div class="k" ${Xt(0.2)}>From terrain to a verdict</div><h2 ${Xt(0.4)}>Make the risk visible before touchdown.</h2><div class="row" style="margin-top:100px"><div class="card" ${Xt(1)}><b>1 \xB7 Choose</b><p>candidate site &amp; mission date</p></div><div class="card" ${Xt(1.6)}><b>2 \xB7 Combine</b><p>terrain, illumination &amp; energy needs</p></div><div class="card" ${Xt(2.2)}><b>3 \xB7 Compare</b><p>exposure across the mission window</p></div><div class="card" ${Xt(2.8)} style="border-color:#ff8a4c"><b class="w">4 \xB7 Explain</b><p class="w">verdict \xB7 risk \xB7 alternative</p></div></div>`,
             },
             {
               t: 'z',
-              v: [11, 4, 16],
-              l: [0, 2.4, 0],
-              el: 0.5,
-              i: 0.22,
+              v: [0, 78, 78],
+              l: [-10, 0, -10],
+              el: 4,
+              i: 1.6,
               dim: 0,
               hud: 1,
               fix: 1,
-              h: `<div class="k w" ${Xt(0.2)}>A real example from the model</div><h2 ${Xt(0.4)}>24 hours in shadow.<br><span class="w">Battery: 100% \u2192 4%</span></h2><p ${Xt(1)} style="margin-top:26px;width:820px">The allowed minimum is 20%. The mission fails. <span class="ok" id="fx" style="opacity:0;transition:opacity 1s"><br>Fix Plan: a safe point found at about \u221289.52\xB0, \u2212136.5\xB0</span></p>`,
+              h: `<div class="k w" ${Xt(0.2)}>Two sites \xB7 one decision</div><h2 ${Xt(0.4, 'scenario-title')}>One ridge. Two outcomes.</h2><div class="scenario-grid"><article class="scenario-card is-active" id="scenario-a"><div class="scenario-label"><i></i>A \xB7 Current site</div><h3>Ridge shadow</h3><p>In this illustrative case, terrain blocks direct sunlight. Stored charge drops below the 20% mission reserve.</p><div class="scenario-reading"><span>Battery trajectory</span><strong>100% \u2192 4%</strong></div></article><article class="scenario-card scenario-card--alternate" id="scenario-b"><div class="scenario-label"><i></i>B \xB7 Alternative</div><h3>A clear solar window</h3><p>If the panels receive direct sunlight, power generation can resume and the mission may recover.</p><div class="scenario-reading"><span>Solar input</span><strong>Recharge possible</strong></div><div class="scenario-charge"><span>Illustrative battery response</span><div class="scenario-charge-track"><i></i></div></div></article></div><div class="scenario-note">Same procedural terrain \xB7 schematic energy story \xB7 not NASA measurements or a verified forecast</div>`,
             },
             {
               t: 'u',
@@ -23971,8 +24105,8 @@ void main() {
               l: [0, 0, 0],
               el: 4,
               i: 1.1,
-              dim: 0.62,
-              h: `<div class="k" ${Xt(0.2)}>The implementation</div><svg width="1680" height="640" viewBox="0 0 1680 640" style="margin-top:20px"><g fill="#07142acc" stroke="#35d4ff" stroke-width="2"><rect x="0" y="120" width="460" height="300" rx="6"/><rect x="620" y="120" width="460" height="300" rx="6"/><rect x="1240" y="30" width="420" height="200" rx="6"/><rect x="1240" y="300" width="420" height="200" rx="6"/></g><g stroke="#ffc86b" stroke-width="4" fill="none"><path class="fl" d="M460 270H620"/><path class="fl" d="M1080 230L1240 130"/><path class="fl" d="M1080 310L1240 400"/></g><g fill="#eaf4ff" font-size="30"><text x="30" y="170" fill="#35d4ff" font-size="26">FRONTEND</text><text x="30" y="225">React 19 \xB7 TypeScript \xB7 Vite</text><text x="30" y="275">Redux Toolkit \xB7 RTK Query</text><text x="30" y="325">Timeline \xB7 Horizon Profile</text><text x="30" y="375">Calendar \xB7 Fix Plan</text><text x="650" y="170" fill="#35d4ff" font-size="26">BACKEND \xB7 DJANGO</text><text x="650" y="225">modes: django / drf</text><text x="650" y="275">POST /api/mission/</text><text x="650" y="325">/api/runs/ \xB7 /swagger/</text><text x="1270" y="80" fill="#35d4ff" font-size="26">DATASETS</text><text x="1270" y="130">demo.py \u2192 sites.json</text><text x="1270" y="180">SHA-256 release</text><text x="1270" y="350" fill="#35d4ff" font-size="26">MODEL</text><text x="1270" y="400">synthetic-v1</text><text x="1270" y="450">24 h forecast</text></g></svg>`,
+              dim: 0.12,
+              h: `<div class="k" ${Xt(0.2)}>The technical foundation</div><h2 ${Xt(0.4)}>A focused pipeline for safer site selection</h2><div class="implementation-grid"><article class="implementation-card" ${Xt(0.8)}><b>Application</b><strong>React \xB7 TypeScript \xB7 Vite</strong><p>Frontend planning; Django powers the analysis service.</p></article><article class="implementation-card" ${Xt(1.4)}><b>Data sources</b><strong>NASA LRO / LOLA<br>JPL Horizons</strong><p>Planned inputs; live API connections are not present in this demo.</p></article><article class="implementation-card" ${Xt(2)}><b>Assessment</b><strong>Terrain \xB7 sunlight \xB7 energy</strong><p>Compare candidate locations against mission constraints.</p></article></div><div class="implementation-note" ${Xt(2.5)}>The 3D scene is procedural and illustrative, not NASA measurement data.</div>`,
             },
             {
               t: 'r',
@@ -23980,8 +24114,8 @@ void main() {
               l: [0, 0, 0],
               el: 6,
               i: 1.6,
-              dim: 0.62,
-              h: `<div class="k" ${Xt(0.2)}>Results and limits</div><h2 ${Xt(0.4)}>What works, and what does not yet</h2><div class="row"><div class="card" ${Xt(1)}><b class="ok">Works</b><div class="num">49/49</div><p>model tests pass; SHA-256 release control; reproducible demo.py</p></div><div class="card" ${Xt(1.6)}><b class="g">Partly</b><div class="num">119/141</div><p>Backend tests: contract tests are ahead of the code (22). Frontend: 52 of 59</p></div><div class="card" ${Xt(2.2)}><b class="w">Limits</b><div class="num">synthetic</div><p>data is not NASA data; no scientific validation yet</p></div></div>`,
+              dim: 0.12,
+              h: `<div class="k" ${Xt(0.2)}>What this demo shows</div><h2 ${Xt(0.4)}>A useful question \u2014 not yet a scientific result.</h2><div class="row"><div class="card" ${Xt(1)}><b class="ok">Scene</b><p>Procedural terrain visualizes how relief can shape illumination.</p></div><div class="card" ${Xt(1.6)}><b class="g">Data</b><p>No live NASA API requests or measured LOLA terrain are used here.</p></div><div class="card" ${Xt(2.2)}><b class="w">Limits</b><p>Energy values are illustrative; the model has not been independently validated.</p></div></div>`,
             },
             {
               t: 'z',
@@ -23989,8 +24123,8 @@ void main() {
               l: [0, -12, 0],
               el: 10,
               i: 2.7,
-              dim: 0.3,
-              h: `<div class="k" ${Xt(0.2)}>What is next</div><p ${Xt(0.5)} style="max-width:1100px">Real NASA data \xB7 independent validation \xB7 comparison of several landing sites</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
+              dim: 0.08,
+              h: `<div class="k" ${Xt(0.2)}>Next</div><p ${Xt(0.5)} style="max-width:1100px">Connect LRO / LOLA elevation and JPL Horizons ephemerides. Validate independently. Compare candidate sites.</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
             },
           ],
           Kl = Be('#ui');
@@ -24024,7 +24158,27 @@ void main() {
             ((Hg = i),
               (Be('#bv').textContent = Math.round(i) + '%'),
               (Be('#bf').style.width = i + '%'),
-              (Be('#bf').style.background = i < 20 ? '#ff8a4c' : ''));
+              (Be('#bf').style.background = i < 20 ? '#ff5364' : ''));
+            let t =
+                i > 70
+                  ? ['nominal', 'POWER STABLE', 'Systems nominal']
+                  : i > 40
+                    ? ['conserve', 'RESERVE FALLING', 'Reduce nonessential load']
+                    : i > 20
+                      ? ['warning', 'LOW RESERVE', 'Shadow window is critical']
+                      : i > 10
+                        ? ['critical', 'CRITICAL POWER', 'Mission survival at risk']
+                        : ['failure', 'MISSION AT RISK', 'Below 20% reserve'];
+            let e = Be('#power-status');
+            (e.dataset.state !== t[0] &&
+              ((e.dataset.state = t[0]),
+              (e.querySelector('strong').textContent = t[1]),
+              (e.querySelector('span').textContent = t[2])));
+          },
+          safeCamera = (i) => {
+            let t = Math.max(-258, Math.min(258, i[0])),
+              e = Math.max(-258, Math.min(258, i[2]));
+            return [i[0], Math.max(i[1], ru(t, e) + 5), i[2]];
           },
           eu = (i, t) => po.push(setTimeout(t, i)),
           Wg = (i, t, e, n) => {
@@ -24052,11 +24206,19 @@ void main() {
             (Mi = i));
           let e = fo[i];
           (Be('#hud').classList.toggle('on', !!e.hud),
+            Be('#hud').classList.toggle('scenario', i === 5),
+            (Be('#hud').querySelector('span').textContent =
+              i === 5 ? 'BATTERY \xB7 SITE A' : 'BATTERY \xB7 SOC'),
             e.hud && so(100),
             (Ks.material.opacity = 0),
             (Qs.material.opacity = 0),
-            (_o.visible = ts.visible = !!e.link),
+            (_o.visible = ts.visible = earthAtmosphere.visible = !!e.link),
             (ji.visible = !1),
+            (siteA.visible = i === 5),
+            (siteB.visible = !1),
+            (altLander.visible = !1),
+            Be('#scenario-a') && Be('#scenario-a').classList.add('is-active'),
+            Be('#scenario-b') && Be('#scenario-b').classList.remove('is-active'),
             (Be('#msg').style.opacity = 0),
             (Be('#tt').style.opacity = 0),
             (Wl = 0),
@@ -24066,7 +24228,12 @@ void main() {
             i === 5 &&
               (eu(900, () => Wg(100, 4, 4200, so)),
               eu(6200, () => {
-                ((Be('#fx').style.opacity = 1), (Wl = 1), (ji.visible = !0));
+                ((Wl = 1),
+                  (ji.visible = !0),
+                  (siteB.visible = !0),
+                  (altLander.visible = !0),
+                  Be('#scenario-a').classList.remove('is-active'),
+                  Be('#scenario-b').classList.add('is-active'));
               })));
         }
         function Xg() {
@@ -24117,8 +24284,8 @@ void main() {
         ]);
         function Zg(i) {
           ((Ee.fog.density = 0.03 - 0.024 * Le(0, 6, i)),
-            (io = 3.2 * Le(1, 7, i) * (1 - 0.93 * Le(14, 16.5, i))),
-            (Ys = 5 + 3 * Le(0, 9, i) - 4.4 * Le(14, 17, i)),
+            (io = 3.2 * Le(1, 7, i) * (1 - 0.97 * Le(14, 16.5, i))),
+            (Ys = 8 + 5 * Le(0, 9, i) - 18 * Le(14, 17, i)),
             ou(Ys, 40 + 30 * Le(0, 14, i)));
           let t,
             e = [0, 0, 0];
@@ -24158,10 +24325,12 @@ void main() {
             i > 14 && so(100 - 40 * Le(14, 17, i)),
             (Be('#msg').style.opacity = i > 14.4 && i < 17.3 ? 1 : 0),
             (Be('#tt').style.opacity = i > 17.6 ? 1 : 0),
-            (no = 0.5 * Le(16.5, 19.5, i)),
+            (no = 0.08 * Le(16.5, 19.5, i)),
+            (ambient.intensity = 0.95 - 0.23 * Le(14, 17, i)),
             (to = t),
             (eo = e),
-            qs.position.set(...t),
+            (to = safeCamera(to)),
+            qs.position.set(...to),
             mo.set(...e),
             qs.lookAt(mo));
         }
@@ -24173,9 +24342,11 @@ void main() {
             let e = fo[Mi],
               n = e.v,
               s = e.l;
-            Mi === 5 && Wl && ((n = [ho - 18, 9, uo + 26]), (s = [ho, 2, uo]));
+            Mi === 5 && Wl && ((n = [2, 74, 74]), (s = [-10, 0, -10]));
             let r = 1 - Math.exp(-t * 2.2);
-            ((to = yi(to, [n[0] + Math.sin(i * 18e-5) * 1.5, n[1], n[2]], r)),
+            ((to = safeCamera(
+                yi(to, [n[0] + Math.sin(i * 18e-5) * 1.5, n[1], n[2]], r),
+              )),
               (eo = yi(eo, s, r)),
               qs.position.set(...to),
               mo.set(...eo),
@@ -24183,7 +24354,8 @@ void main() {
               (Ys += (e.el - Ys) * r),
               (io += (e.i - io) * r),
               ou(Ys, 70),
-              (no += (e.dim - no) * r),
+              (no += (Math.min(e.dim, 0.12) - no) * r),
+              (ambient.intensity += (0.95 - ambient.intensity) * r),
               (Ee.fog.density += (0.006 - Ee.fog.density) * r),
               (Ks.material.opacity = e.ring ? 0.6 + 0.3 * Math.sin(i * 0.004) : 0),
               Ks.scale.setScalar(1 + 0.04 * Math.sin(i * 0.003)),
@@ -24193,7 +24365,9 @@ void main() {
           }
           ((ri.intensity = io),
             (Be('#dim').style.opacity = no),
-            (ts.rotation.y += t * 0.1),
+            (ts.rotation.y += t * 0.006),
+            (earthAtmosphere.rotation.y = ts.rotation.y),
+            sunGlow.quaternion.copy(qs.quaternion),
             si.render(Ee, qs));
         });
         Yl(0);
