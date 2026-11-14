@@ -24204,6 +24204,14 @@ void main() {
               (n.classList.remove('on'), s === i && (n.offsetWidth, n.classList.add('on')));
             }),
             (Mi = i));
+          let music = Be('#background-music');
+          if (i === fo.length - 1) {
+            music.volume = 0.35;
+            music.play().catch((error) => console.error('Background music could not be played:', error));
+          } else {
+            music.pause();
+            music.currentTime = 0;
+          }
           let e = fo[i];
           (Be('#hud').classList.toggle('on', !!e.hud),
             Be('#hud').classList.toggle('scenario', i === 5),
