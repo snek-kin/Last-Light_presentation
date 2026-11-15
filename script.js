@@ -23701,7 +23701,7 @@ void main() {
         si.setSize(ro, ao, !1);
         si.setPixelRatio(1);
         si.shadowMap.enabled = !0;
-        si.shadowMap.type = Ls;
+        si.shadowMap.type = qi;
         si.toneMapping = Ds;
         si.toneMappingExposure = 1.3;
         var Ee = new ms();
@@ -23792,23 +23792,53 @@ void main() {
         Zs.repeat.set(70, 70);
         Zs.anisotropy = 4;
         var au = new Me(oo, new On({ map: Zs, color: 12171702, roughness: 1 }));
-        au.receiveShadow = !0;
+        au.castShadow = au.receiveShadow = !0;
         Ee.add(au);
         {
-          let i = new Qn(1, 7, 5),
-            t = new On({ color: 8158334, roughness: 1 });
+          let i = new Qn(1, 12, 8),
+            vertices = i.attributes.position,
+            materials = [
+              new On({
+                color: 0xa9aaad,
+                emissive: 0x242628,
+                emissiveIntensity: 0.45,
+                roughness: 1,
+              }),
+              new On({
+                color: 0xbab8b0,
+                emissive: 0x2b2a25,
+                emissiveIntensity: 0.4,
+                roughness: 1,
+              }),
+              new On({
+                color: 0x91969b,
+                emissive: 0x202326,
+                emissiveIntensity: 0.4,
+                roughness: 1,
+              }),
+            ];
+          for (let e = 0; e < vertices.count; e++) {
+            let n = 0.86 + ze(e, 97) * 0.28;
+            vertices.setXYZ(
+              e,
+              vertices.getX(e) * n,
+              vertices.getY(e) * n,
+              vertices.getZ(e) * n,
+            );
+          }
+          i.computeVertexNormals();
           for (let e = 0; e < 72; e++) {
             let n = ze(e, 31) * 6.283,
               s = 30 + ze(e, 32) * 205,
-              r = 0.45 + ze(e, 33) * 1.25,
+              r = 0.7 + ze(e, 33) * 1.8,
               a = Math.cos(n) * s,
               o = Math.sin(n) * s,
-              c = new Me(i, t);
-            (c.position.set(a, ru(a, o) + r * 0.32, o),
-              c.scale.set(r * (0.8 + ze(e, 34) * 0.6), r * (0.55 + ze(e, 35) * 0.55), r),
-              (c.rotation.y = ze(e, 36) * 6.283),
-              (c.castShadow = !1),
-              (c.receiveShadow = !1),
+              c = new Me(i, materials[Math.floor(ze(e, 37) * materials.length)]);
+            (c.position.set(a, ru(a, o) + r * 0.38, o),
+              c.scale.set(r * (0.8 + ze(e, 34) * 0.6), r * (0.65 + ze(e, 35) * 0.55), r),
+              c.rotation.set(ze(e, 38) * 0.3, ze(e, 36) * 6.283, ze(e, 39) * 0.3),
+              (c.castShadow = !0),
+              (c.receiveShadow = !0),
               Ee.add(c));
           }
         }
@@ -23816,10 +23846,12 @@ void main() {
         ri.castShadow = !0;
         ri.shadow.mapSize.set(2048, 2048);
         var Js = ri.shadow.camera;
-        Js.left = Js.bottom = -130;
-        Js.right = Js.top = 130;
+        Js.left = Js.bottom = -210;
+        Js.right = Js.top = 210;
         Js.far = 400;
-        ri.shadow.bias = -5e-4;
+        ri.shadow.bias = -2e-4;
+        ri.shadow.normalBias = 0.01;
+        ri.shadow.radius = 3;
         Ee.add(ri, ri.target);
         var ambient = new Rs(0x8293a5, 0x4d453b, 0.95);
         Ee.add(ambient);
@@ -23833,26 +23865,47 @@ void main() {
           );
           sunCore.position.copy(ri.position);
           sunGlow.position.copy(ri.position);
+          sunCorona.position.copy(ri.position);
         };
         var sunCanvas = document.createElement('canvas');
-        sunCanvas.width = sunCanvas.height = 128;
+        sunCanvas.width = sunCanvas.height = 512;
         {
           let i = sunCanvas.getContext('2d'),
-            t = i.createRadialGradient(64, 64, 2, 64, 64, 64);
+            t = i.createRadialGradient(256, 256, 4, 256, 256, 256);
           (t.addColorStop(0, 'rgba(255,249,217,0.95)'),
-            t.addColorStop(0.12, 'rgba(255,205,126,0.68)'),
-            t.addColorStop(0.38, 'rgba(255,147,76,0.2)'),
+            t.addColorStop(0.12, 'rgba(255,205,126,0.72)'),
+            t.addColorStop(0.42, 'rgba(255,147,76,0.24)'),
             t.addColorStop(1, 'rgba(255,115,53,0)'),
             (i.fillStyle = t),
-            i.fillRect(0, 0, 128, 128));
+            i.fillRect(0, 0, 512, 512));
+          for (let n = 0; n < 56; n++) {
+            let angle = (n / 56) * 6.283,
+              inner = 76 + (n % 3) * 10,
+              outer = 130 + ze(n, 74) * 110;
+            (i.beginPath(),
+              i.moveTo(256 + Math.cos(angle) * inner, 256 + Math.sin(angle) * inner),
+              i.lineTo(256 + Math.cos(angle) * outer, 256 + Math.sin(angle) * outer),
+              (i.strokeStyle =
+                n % 4 === 0 ? 'rgba(255,239,184,0.86)' : 'rgba(255,179,93,0.52)'),
+              (i.lineWidth = n % 4 === 0 ? 3 : 1.5),
+              i.stroke());
+          }
+          for (let n = 0; n < 7; n++) {
+            let angle = (n / 7) * 6.283;
+            (i.beginPath(),
+              i.ellipse(256, 256, 145, 105, angle, 0.45, 1.28),
+              (i.strokeStyle = 'rgba(255,197,125,0.72)'),
+              (i.lineWidth = 3),
+              i.stroke());
+          }
         }
         var sunTexture = new Wi(sunCanvas);
         var sunCore = new Me(
-            new Qn(2.2, 24, 16),
+            new Qn(5, 64, 48),
             new yn({ color: 16773582, fog: !1 }),
           ),
           sunGlow = new Me(
-            new pi(34, 34),
+            new pi(92, 92),
             new yn({
               map: sunTexture,
               transparent: !0,
@@ -23860,28 +23913,56 @@ void main() {
               fog: !1,
             }),
           );
+        var sunCorona = new Me(
+          new pi(104, 104),
+          new yn({
+            map: sunTexture,
+            transparent: !0,
+            opacity: 0.76,
+            depthWrite: !1,
+            fog: !1,
+          }),
+        );
         sunCore.position.copy(ri.position);
         sunGlow.position.copy(ri.position);
-        Ee.add(sunGlow, sunCore);
+        sunCorona.position.copy(ri.position);
+        Ee.add(sunCorona, sunGlow, sunCore);
         {
-          let t = new Float32Array(6600);
-          for (let n = 0; n < 2200; n++) {
-            let s = ze(n, 7) * 6.283,
-              r = Math.acos(2 * ze(n, 8) - 1);
-            t.set(
-              [
-                1200 * Math.sin(r) * Math.cos(s),
-                Math.abs(1200 * Math.cos(r)) + 30,
-                1200 * Math.sin(r) * Math.sin(s),
-              ],
-              n * 3,
-            );
+          for (let [count, size, color, opacity, seed] of [
+            [1550, 1, 0x7394d9, 0.8, 7],
+            [550, 1.7, 0xb5dfff, 0.94, 17],
+            [100, 2.8, 0xeaf4ff, 1, 27],
+          ]) {
+            let positions = new Float32Array(count * 3);
+            for (let n = 0; n < count; n++) {
+              let angle = ze(n + seed, 7) * 6.283,
+                polar = Math.acos(2 * ze(n + seed, 8) - 1);
+              positions.set(
+                [
+                  1200 * Math.sin(polar) * Math.cos(angle),
+                  Math.abs(1200 * Math.cos(polar)) + 30,
+                  1200 * Math.sin(polar) * Math.sin(angle),
+                ],
+                n * 3,
+              );
+            }
+            let geometry = new Te();
+            (geometry.setAttribute('position', new Xe(positions, 3)),
+              Ee.add(
+                new Hi(
+                  geometry,
+                  new fi({
+                    size,
+                    sizeAttenuation: !1,
+                    fog: !1,
+                    color,
+                    transparent: !0,
+                    opacity,
+                    depthWrite: !1,
+                  }),
+                ),
+              ));
           }
-          let e = new Te();
-          (e.setAttribute('position', new Xe(t, 3)),
-            Ee.add(
-              new Hi(e, new fi({ size: 1.6, sizeAttenuation: !1, fog: !1, color: 13624575 })),
-            ));
         }
         var un = new gn(),
           Zl = new On({ color: 13214282, metalness: 0.9, roughness: 0.32 }),
@@ -24000,19 +24081,56 @@ void main() {
         }
         var earthMap = new Wi(earthCanvas);
         earthMap.wrapS = Oi;
+        // Earth surface and cloud maps use the Three.js planet example textures.
+        var earthImage = new Image();
+        earthImage.onload = () => {
+          let i = earthCanvas.getContext('2d');
+          (i.clearRect(0, 0, earthCanvas.width, earthCanvas.height),
+            i.drawImage(earthImage, 0, 0, earthCanvas.width, earthCanvas.height),
+            (earthMap.needsUpdate = !0));
+        };
+        earthImage.onerror = () => console.error('Could not load Earth texture:', earthImage.src);
+        earthImage.src = 'earth-texture.jpg';
+        var earthCloudCanvas = document.createElement('canvas');
+        earthCloudCanvas.width = 1024;
+        earthCloudCanvas.height = 512;
+        var earthCloudMap = new Wi(earthCloudCanvas);
+        earthCloudMap.wrapS = Oi;
+        var earthCloudImage = new Image();
+        earthCloudImage.onload = () => {
+          let i = earthCloudCanvas.getContext('2d');
+          (i.drawImage(earthCloudImage, 0, 0, earthCloudCanvas.width, earthCloudCanvas.height),
+            (earthCloudMap.needsUpdate = !0));
+        };
+        earthCloudImage.onerror = () =>
+          console.error('Could not load Earth cloud texture:', earthCloudImage.src);
+        earthCloudImage.src = 'earth-clouds.png';
         var ts = new Me(
-            new Qn(10, 48, 32),
-            new On({ map: earthMap, color: 16777215, roughness: 0.94, metalness: 0, fog: !1 }),
+            new Qn(28, 72, 56),
+            new yn({ map: earthMap, color: 16777215, fog: !1 }),
+          ),
+          earthClouds = new Me(
+            new Qn(28.18, 72, 56),
+            new yn({
+              map: earthCloudMap,
+              color: 16777215,
+              transparent: !0,
+              opacity: 0.3,
+              depthWrite: !1,
+              fog: !1,
+            }),
           ),
           earthAtmosphere = new Me(
-            new Qn(10.55, 40, 28),
-            new yn({ color: 3988735, transparent: !0, opacity: 0.1, depthWrite: !1, fog: !1 }),
+            new Qn(28.6, 64, 48),
+            new yn({ color: 3988735, transparent: !0, opacity: 0.15, depthWrite: !1, fog: !1 }),
           );
         ts.position.set(-90, 52, -170);
         ts.visible = !1;
+        earthClouds.position.copy(ts.position);
+        earthClouds.visible = !1;
         earthAtmosphere.position.copy(ts.position);
         earthAtmosphere.visible = !1;
-        Ee.add(ts, earthAtmosphere);
+        Ee.add(ts, earthClouds, earthAtmosphere);
         var _o = new vs(
           new Te().setFromPoints([new z(0, 3.8, 0), ts.position]),
           new As({ color: 3527935, dashSize: 3, gapSize: 2, fog: !1 }),
@@ -24119,9 +24237,9 @@ void main() {
             },
             {
               t: 'z',
-              v: [0, 90, 230],
-              l: [0, -12, 0],
-              el: 10,
+              v: [0, 38, 235],
+              l: [0, 30, -40],
+              el: 25,
               i: 2.7,
               dim: 0.08,
               h: `<div class="k" ${Xt(0.2)}>Next</div><p ${Xt(0.5)} style="max-width:1100px">Connect LRO / LOLA elevation and JPL Horizons ephemerides. Validate independently. Compare candidate sites.</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
@@ -24135,6 +24253,7 @@ void main() {
           );
         });
         Kl.children[0].innerHTML = '';
+        Kl.lastElementChild.classList.add('ending');
         var yi = (i, t, e) => i.map((n, s) => n + (t[s] - n) * e),
           Le = (i, t, e) => (
             (e = Math.min(1, Math.max(0, (e - i) / (t - i)))),
@@ -24213,6 +24332,11 @@ void main() {
             music.currentTime = 0;
           }
           let e = fo[i];
+          if (i === fo.length - 1) {
+            ts.position.set(-65, 46, -145);
+            ts.rotation.y = 2.1;
+          } else ts.position.set(-90, 52, -170);
+          (earthClouds.position.copy(ts.position), earthAtmosphere.position.copy(ts.position));
           (Be('#hud').classList.toggle('on', !!e.hud),
             Be('#hud').classList.toggle('scenario', i === 5),
             (Be('#hud').querySelector('span').textContent =
@@ -24220,7 +24344,9 @@ void main() {
             e.hud && so(100),
             (Ks.material.opacity = 0),
             (Qs.material.opacity = 0),
-            (_o.visible = ts.visible = earthAtmosphere.visible = !!e.link),
+            (_o.visible = !!e.link,
+              ts.visible = earthClouds.visible = earthAtmosphere.visible =
+                !!e.link || i === fo.length - 1),
             (ji.visible = !1),
             (siteA.visible = i === 5),
             (siteB.visible = !1),
@@ -24372,7 +24498,7 @@ void main() {
               qs.lookAt(mo),
               (Ys += (e.el - Ys) * r),
               (io += (e.i - io) * r),
-              ou(Ys, 70),
+              ou(Ys, Mi === fo.length - 1 ? 180 : 70),
               (no += (Math.min(e.dim, 0.12) - no) * r),
               (ambient.intensity += (0.95 - ambient.intensity) * r),
               (Ee.fog.density += (0.006 - Ee.fog.density) * r),
@@ -24385,8 +24511,12 @@ void main() {
           ((ri.intensity = io),
             (Be('#dim').style.opacity = no),
             (ts.rotation.y += t * 0.006),
+            (earthClouds.rotation.y += t * 0.008),
             (earthAtmosphere.rotation.y = ts.rotation.y),
-            sunGlow.quaternion.copy(qs.quaternion),
+            (sunGlow.quaternion.copy(qs.quaternion),
+              sunCorona.quaternion.copy(qs.quaternion),
+              sunCorona.rotateZ(t * 0.12),
+              sunCorona.scale.setScalar(1 + 0.035 * Math.sin(i * 0.002))),
             si.render(Ee, qs));
         });
         Yl(0);
