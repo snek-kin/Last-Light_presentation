@@ -24174,7 +24174,7 @@ void main() {
               i: 0.3,
               dim: 0,
               hud: 1,
-              h: `<div class="k" ${Xt(0.2)}>02 / 07 \u00b7 THE CHALLENGE</div><h2 ${Xt(0.4)}>When the light goes out</h2><div class="challenge-layout"><article class="card challenge-risk" ${Xt(0.8)}><b>Landing at the South Pole</b><div class="risk-point"><strong>No sunlight</strong><span>Panels produce nothing.</span></div><div class="risk-point"><strong>Battery drains</strong><span>Heating keeps running.</span></div><div class="risk-point risk-alert"><strong>Mission at risk</strong></div></article><div class="challenge-audience"><article class="card" ${Xt(1.2)}><b>Who feels it</b><p>Space agencies, universities and aerospace companies planning multi-day south-polar missions.</p></article><article class="card" ${Xt(1.8)}><b>Why now</b><p>Upcoming missions target the lunar South Pole, where light varies sharply by location.</p></article></div></div><p class="challenge-conclusion" ${Xt(2.4)}>Choose a safer landing site before the mission starts.</p>`,
+              h: `<div class="k" ${Xt(0.2)}>The challenge</div><h2 ${Xt(0.4)}>At the south pole, sunlight is a resource</h2><ul style="margin-top:50px;width:1080px"><li ${Xt(1)}><b class="g">Light</b> \u2014 the Sun skims the horizon</li><li ${Xt(1.6)}><b class="g">Terrain</b> \u2014 crater rims decide where a lander can stand</li><li ${Xt(2.2)}><b class="g">Power</b> \u2014 one long shadow can outlast the battery</li></ul>`,
             },
             {
               t: 'r',
@@ -24184,7 +24184,7 @@ void main() {
               i: 3,
               dim: 0,
               ring: 1,
-              h: `<div class="k" ${Xt(0.2)}>03 / 07 \u00b7 OUR IDEA</div><h2 ${Xt(0.4)}>Check the site before you land</h2><p class="slide-summary" ${Xt(0.7)}>For chosen coordinates and dates, Last Light checks terrain, sunlight, energy and Earth contact, then returns <strong class="ok">SUCCESS</strong> or <strong class="w">FAIL</strong>.</p><div class="solution-summary-grid"><article class="solution-card" ${Xt(1)}><b>24-hour forecast</b><p>Explains the survival verdict.</p></article><article class="solution-card" ${Xt(1.3)}><b>Fix Plan</b><p>Proposes an alternative site.</p></article><article class="solution-card" ${Xt(1.6)}><b>Checkable result</b><p>Example: 4% charge vs. 20% minimum.</p></article></div><div class="factor-grid"><article class="factor-card" ${Xt(2)}><span>01</span><b>Terrain</b><p>Slope &amp; obstacles</p></article><article class="factor-card" ${Xt(2.2)}><span>02</span><b>Illumination</b><p>Solar power</p></article><article class="factor-card" ${Xt(2.4)}><span>03</span><b>Energy balance</b><p>Battery reserve</p></article><article class="factor-card" ${Xt(2.6)}><span>04</span><b>Earth link</b><p>Contact</p></article></div>`,
+              h: `<div class="k" ${Xt(0.2)}>The approach</div><h1 ${Xt(0.4)} style="font-size:120px">LAST LIGHT</h1><p ${Xt(1)} style="margin-top:30px;max-width:1100px">Find ground where safe terrain, sunlight and stored energy align.</p><div class="row" style="width:1250px"><div class="card" ${Xt(1.5)}><b>Input</b><p class="mono">candidate site \xB7 mission date</p></div><div class="card" ${Xt(1.8)}><b>Output</b><p>clear verdict \xB7 key risk \xB7 safer option</p></div></div>`,
             },
             {
               t: 'u',
@@ -24194,7 +24194,7 @@ void main() {
               i: 1.6,
               dim: 0.2,
               link: 1,
-              h: `<div class="k" ${Xt(0.2)}>04 / 07 \u00b7 THE PIPELINE</div><h2 ${Xt(0.4)}>From coordinates to verdict</h2><p class="slide-summary" ${Xt(0.7)}>Horizons provides Sun/Earth positions; LRO LOLA terrain via NASA PGDA feeds a release marked <strong class="g">DEMO DATA</strong>.</p><div class="implementation-grid"><article class="implementation-card" ${Xt(1)}><b>The logic</b><strong>24-hour survival check</strong><p>Hourly horizon profiles estimate light, Earth visibility and battery. Limits: slope &le; 15&deg;; charge &ge; 20%.</p></article><article class="implementation-card" ${Xt(1.3)}><b>AI helpers</b><strong>Team makes decisions</strong><p>Claude supports coding, test and translation drafts, automation and prototyping; final decisions stay with the team.</p></article><article class="implementation-card" ${Xt(1.6)}><b>Built with</b><strong>Open-source stack</strong><p>Python, Django, React, TypeScript, Redux Toolkit, WebGL, SHA-256 integrity checks and automated tests.</p></article></div><div class="pipeline-proof"><div><strong>4%</strong><span>example charge</span></div><i></i><div><strong>20%</strong><span>safe minimum</span></div></div>`,
+              h: `<div class="k" ${Xt(0.2)}>A site is more than a landing spot</div><h2 ${Xt(0.4)}>Four checks. One mission.</h2><div class="row" style="margin-top:300px"><div class="card" ${Xt(0.6)}><b>Terrain</b><p>relief &amp; slope</p></div><div class="card" ${Xt(1.4)}><b>Sunlight</b><p>illumination window</p></div><div class="card" ${Xt(2.2)}><b>Energy</b><p>battery reserve</p></div><div class="card" ${Xt(3)}><b>Visibility</b><p>Earth link context</p></div></div>`,
             },
             {
               t: 'z',
@@ -24204,7 +24204,7 @@ void main() {
               i: 3,
               dim: 0,
               scan: 1,
-              h: `<div class="k" ${Xt(0.2)}>05 / 07 \u00b7 PRODUCT PREVIEW</div><h2 ${Xt(0.4)}>LAST LIGHT in action</h2><div class="demo-layout"><div class="demo-copy" ${Xt(0.8)}><p class="demo-intro">Hourly forecasts combine illumination, battery and horizon profiles.</p><div class="feature-list"><div>Illumination chart</div><div>Battery charge</div><div>Horizon profile</div><div>Forecast calendar</div></div><div class="fix-plan"><b>Fix Plan</b><span>Suggests an alternative site when a landing location fails.</span></div><a class="project-link" href="https://github.com/1baisal3/LAST-LIGHT-" target="_blank" rel="noopener noreferrer">Public project link <span>github.com/1baisal3/LAST-LIGHT-</span></a></div><div class="demo-visual" ${Xt(1.1)}><div class="demo-visual-head"><span>MISSION SNAPSHOT</span><span>24 HOUR FORECAST</span></div><div class="demo-metrics"><div><strong>24 h</strong><span>survival window</span></div><div><strong class="w">4%</strong><span>example charge</span></div><div><strong class="ok">20%</strong><span>safe minimum</span></div></div><div class="demo-visual-track"><i></i></div><p>Forecast calendar compares candidate landing dates.</p></div></div>`,
+              h: `<div class="k" ${Xt(0.2)}>From terrain to a verdict</div><h2 ${Xt(0.4)}>Make the risk visible before touchdown.</h2><div class="row" style="margin-top:100px"><div class="card" ${Xt(1)}><b>1 \xB7 Choose</b><p>candidate site &amp; mission date</p></div><div class="card" ${Xt(1.6)}><b>2 \xB7 Combine</b><p>terrain, illumination &amp; energy needs</p></div><div class="card" ${Xt(2.2)}><b>3 \xB7 Compare</b><p>exposure across the mission window</p></div><div class="card" ${Xt(2.8)} style="border-color:#ff8a4c"><b class="w">4 \xB7 Explain</b><p class="w">verdict \xB7 risk \xB7 alternative</p></div></div>`,
             },
             {
               t: 'z',
@@ -24215,7 +24215,25 @@ void main() {
               dim: 0,
               hud: 1,
               fix: 1,
-              h: `<div class="k" ${Xt(0.2)}>06 / 07 \u00b7 IMPACT</div><h2 ${Xt(0.4)}>Who gains, and what\u2019s next</h2><div class="impact-top"><article class="impact-card" ${Xt(0.8)}><b>Who gains</b><p>Mission planners get more justified, transparent and safer site choices before a mission.</p></article><article class="impact-card" ${Xt(1.1)}><b>Who we can reach</b><p>Research centers, universities, aerospace firms and government space programs.</p></article></div><div class="roadmap-grid"><article class="roadmap-card" ${Xt(1.5)}><span>01</span><b>Real NASA data</b><p>Final Horizons + LOLA release</p></article><article class="roadmap-card" ${Xt(1.8)}><span>02</span><b>Scientific validation</b><p>Confirm the forecasts</p></article><article class="roadmap-card" ${Xt(2.1)}><span>03</span><b>Commercialization</b><p>SaaS, enterprise, API</p></article></div><p class="demo-limit" ${Xt(2.5)}><b>Honest limit</b> Current results use synthetic demo data; they are not yet a validated scientific forecast.</p>`,
+              h: `<div class="k w" ${Xt(0.2)}>Two sites \xB7 one decision</div><h2 ${Xt(0.4, 'scenario-title')}>One ridge. Two outcomes.</h2><div class="scenario-grid"><article class="scenario-card is-active" id="scenario-a"><div class="scenario-label"><i></i>A \xB7 Current site</div><h3>Ridge shadow</h3><p>In this illustrative case, terrain blocks direct sunlight. Stored charge drops below the 20% mission reserve.</p><div class="scenario-reading"><span>Battery trajectory</span><strong>100% \u2192 4%</strong></div></article><article class="scenario-card scenario-card--alternate" id="scenario-b"><div class="scenario-label"><i></i>B \xB7 Alternative</div><h3>A clear solar window</h3><p>If the panels receive direct sunlight, power generation can resume and the mission may recover.</p><div class="scenario-reading"><span>Solar input</span><strong>Recharge possible</strong></div><div class="scenario-charge"><span>Illustrative battery response</span><div class="scenario-charge-track"><i></i></div></div></article></div><div class="scenario-note">Same procedural terrain \xB7 schematic energy story \xB7 not NASA measurements or a verified forecast</div>`,
+            },
+            {
+              t: 'u',
+              v: [0, 70, 190],
+              l: [0, 0, 0],
+              el: 4,
+              i: 1.1,
+              dim: 0.12,
+              h: `<div class="k" ${Xt(0.2)}>The technical foundation</div><h2 ${Xt(0.4)}>A focused pipeline for safer site selection</h2><div class="implementation-grid"><article class="implementation-card" ${Xt(0.8)}><b>Application</b><strong>React \xB7 TypeScript \xB7 Vite</strong><p>Frontend planning; Django powers the analysis service.</p></article><article class="implementation-card" ${Xt(1.4)}><b>Data sources</b><strong>NASA LRO / LOLA<br>JPL Horizons</strong><p>Planned inputs; live API connections are not present in this demo.</p></article><article class="implementation-card" ${Xt(2)}><b>Assessment</b><strong>Terrain \xB7 sunlight \xB7 energy</strong><p>Compare candidate locations against mission constraints.</p></article></div><div class="implementation-note" ${Xt(2.5)}>The 3D scene is procedural and illustrative, not NASA measurement data.</div>`,
+            },
+            {
+              t: 'r',
+              v: [60, 24, 90],
+              l: [0, 0, 0],
+              el: 6,
+              i: 1.6,
+              dim: 0.12,
+              h: `<div class="k" ${Xt(0.2)}>What this demo shows</div><h2 ${Xt(0.4)}>A useful question \u2014 not yet a scientific result.</h2><div class="row"><div class="card" ${Xt(1)}><b class="ok">Scene</b><p>Procedural terrain visualizes how relief can shape illumination.</p></div><div class="card" ${Xt(1.6)}><b class="g">Data</b><p>No live NASA API requests or measured LOLA terrain are used here.</p></div><div class="card" ${Xt(2.2)}><b class="w">Limits</b><p>Energy values are illustrative; the model has not been independently validated.</p></div></div>`,
             },
             {
               t: 'z',
@@ -24224,7 +24242,7 @@ void main() {
               el: 25,
               i: 2.7,
               dim: 0.08,
-              h: `<div class="k" ${Xt(0.2)}>07 / 07 \u00b7 THE TEAM</div><h2 class="sources-title" ${Xt(0.4)}>People and sources</h2><div class="source-layout"><section class="source-panel team-panel" ${Xt(0.8)}><b class="panel-title">The team</b><div class="team-list"><div><strong>Bekbosun Kanatbek uulu</strong><span>Captain</span></div><div><strong>Baisal Shailoobekov</strong><span>Team lead</span></div><div><strong>Daniyar Tokobaev</strong><span>Speaker</span></div><div><strong>Begimai Kasimova</strong><span>QA tester, frontend</span></div><div><strong>Fatima Amanturova</strong><span>Frontend</span></div><div><strong>Sulamita Boobekova</strong><span>Backend</span></div></div></section><section class="source-panel credits-panel" ${Xt(1.1)}><b class="panel-title">Sources and credits</b><ul class="reference-list"><li><a href="https://ssd-api.jpl.nasa.gov/doc/horizons.html" target="_blank" rel="noopener noreferrer">NASA JPL Horizons API</a><span>Sun/Earth ephemerides</span></li><li><a href="https://ssd.jpl.nasa.gov/horizons/manual.html" target="_blank" rel="noopener noreferrer">Horizons System Manual</a><span>Observation parameters and coordinates</span></li><li><a href="https://pgda.gsfc.nasa.gov/products/90" target="_blank" rel="noopener noreferrer">NASA GSFC / LRO LOLA</a><span>South Pole elevation models</span></li><li><a href="https://ntrs.nasa.gov/citations/20200007746" target="_blank" rel="noopener noreferrer">On-Orbit Thermal Environments</a><span>Thermal model reference</span></li><li><span>NASA: Solar Storms and Flares</span><span>Solar events reference</span></li></ul><b class="panel-title ai-title">AI and data</b><p>Horizons and LOLA feed the pipeline; this release remains DEMO DATA until validation. Claude supports coding, tests, translations, automation and prototyping.</p></section></div><p class="final-quote" ${Xt(2)}>Better to find the danger on Earth than to face it on the Moon.</p>`,
+              h: `<div class="k" ${Xt(0.2)}>Next</div><p ${Xt(0.5)} style="max-width:1100px">Connect LRO / LOLA elevation and JPL Horizons ephemerides. Validate independently. Compare candidate sites.</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
             },
           ],
           Kl = Be('#ui');
@@ -24320,9 +24338,9 @@ void main() {
           } else ts.position.set(-90, 52, -170);
           (earthClouds.position.copy(ts.position), earthAtmosphere.position.copy(ts.position));
           (Be('#hud').classList.toggle('on', !!e.hud),
-            Be('#hud').classList.toggle('scenario', i === 4),
+            Be('#hud').classList.toggle('scenario', i === 5),
             (Be('#hud').querySelector('span').textContent =
-              i === 4 ? 'BATTERY \xB7 SITE A' : 'BATTERY \xB7 SOC'),
+              i === 5 ? 'BATTERY \xB7 SITE A' : 'BATTERY \xB7 SOC'),
             e.hud && so(100),
             (Ks.material.opacity = 0),
             (Qs.material.opacity = 0),
@@ -24330,22 +24348,26 @@ void main() {
               ts.visible = earthClouds.visible = earthAtmosphere.visible =
                 !!e.link || i === fo.length - 1),
             (ji.visible = !1),
-            (siteA.visible = i === 4),
+            (siteA.visible = i === 5),
             (siteB.visible = !1),
             (altLander.visible = !1),
+            Be('#scenario-a') && Be('#scenario-a').classList.add('is-active'),
+            Be('#scenario-b') && Be('#scenario-b').classList.remove('is-active'),
             (Be('#msg').style.opacity = 0),
             (Be('#tt').style.opacity = 0),
             (Wl = 0),
             i === 0
               ? ((cu = performance.now()), (ql = 0), (un.position.y = 70), so(100))
               : (un.position.set(0, 0, 0), (Qi.visible = !1), (co.opacity = 0)),
-            i === 4 &&
+            i === 5 &&
               (eu(900, () => Wg(100, 4, 4200, so)),
               eu(6200, () => {
                 ((Wl = 1),
                   (ji.visible = !0),
                   (siteB.visible = !0),
-                (altLander.visible = !0));
+                  (altLander.visible = !0),
+                  Be('#scenario-a').classList.remove('is-active'),
+                  Be('#scenario-b').classList.add('is-active'));
               })));
         }
         function Xg() {
@@ -24465,7 +24487,7 @@ void main() {
             let e = fo[Mi],
               n = e.v,
               s = e.l;
-            Mi === 4 && Wl && ((n = [2, 74, 74]), (s = [-10, 0, -10]));
+            Mi === 5 && Wl && ((n = [2, 74, 74]), (s = [-10, 0, -10]));
             let r = 1 - Math.exp(-t * 2.2);
             ((to = safeCamera(
                 yi(to, [n[0] + Math.sin(i * 18e-5) * 1.5, n[1], n[2]], r),
