@@ -24218,31 +24218,13 @@ void main() {
               h: `<div class="k w" ${Xt(0.2)}>Two sites \xB7 one decision</div><h2 ${Xt(0.4, 'scenario-title')}>One ridge. Two outcomes.</h2><div class="scenario-grid"><article class="scenario-card is-active" id="scenario-a"><div class="scenario-label"><i></i>A \xB7 Current site</div><h3>Ridge shadow</h3><p>In this illustrative case, terrain blocks direct sunlight. Stored charge drops below the 20% mission reserve.</p><div class="scenario-reading"><span>Battery trajectory</span><strong>100% \u2192 4%</strong></div></article><article class="scenario-card scenario-card--alternate" id="scenario-b"><div class="scenario-label"><i></i>B \xB7 Alternative</div><h3>A clear solar window</h3><p>If the panels receive direct sunlight, power generation can resume and the mission may recover.</p><div class="scenario-reading"><span>Solar input</span><strong>Recharge possible</strong></div><div class="scenario-charge"><span>Illustrative battery response</span><div class="scenario-charge-track"><i></i></div></div></article></div><div class="scenario-note">Same procedural terrain \xB7 schematic energy story \xB7 not NASA measurements or a verified forecast</div>`,
             },
             {
-              t: 'u',
-              v: [0, 70, 190],
-              l: [0, 0, 0],
-              el: 4,
-              i: 1.1,
-              dim: 0.12,
-              h: `<div class="k" ${Xt(0.2)}>The technical foundation</div><h2 ${Xt(0.4)}>A focused pipeline for safer site selection</h2><div class="implementation-grid"><article class="implementation-card" ${Xt(0.8)}><b>Application</b><strong>React \xB7 TypeScript \xB7 Vite</strong><p>Frontend planning; Django powers the analysis service.</p></article><article class="implementation-card" ${Xt(1.4)}><b>Data sources</b><strong>NASA LRO / LOLA<br>JPL Horizons</strong><p>Planned inputs; live API connections are not present in this demo.</p></article><article class="implementation-card" ${Xt(2)}><b>Assessment</b><strong>Terrain \xB7 sunlight \xB7 energy</strong><p>Compare candidate locations against mission constraints.</p></article></div><div class="implementation-note" ${Xt(2.5)}>The 3D scene is procedural and illustrative, not NASA measurement data.</div>`,
-            },
-            {
-              t: 'r',
-              v: [60, 24, 90],
-              l: [0, 0, 0],
-              el: 6,
-              i: 1.6,
-              dim: 0.12,
-              h: `<div class="k" ${Xt(0.2)}>What this demo shows</div><h2 ${Xt(0.4)}>A useful question \u2014 not yet a scientific result.</h2><div class="row"><div class="card" ${Xt(1)}><b class="ok">Scene</b><p>Procedural terrain visualizes how relief can shape illumination.</p></div><div class="card" ${Xt(1.6)}><b class="g">Data</b><p>No live NASA API requests or measured LOLA terrain are used here.</p></div><div class="card" ${Xt(2.2)}><b class="w">Limits</b><p>Energy values are illustrative; the model has not been independently validated.</p></div></div>`,
-            },
-            {
               t: 'z',
               v: [0, 38, 235],
               l: [0, 30, -40],
               el: 25,
               i: 2.7,
               dim: 0.08,
-              h: `<div class="k" ${Xt(0.2)}>Next</div><p ${Xt(0.5)} style="max-width:1100px">Connect LRO / LOLA elevation and JPL Horizons ephemerides. Validate independently. Compare candidate sites.</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
+              h: `<div class="k" ${Xt(0.2)}>Next</div><p ${Xt(0.5)} style="max-width:1100px">Connect measured lunar terrain and sunlight data, then validate the model. The current scene and energy values are illustrative, not scientific measurements.</p><h1 ${Xt(1.4)} style="margin-top:90px;font-size:130px">Will the light last?</h1><div class="sub" ${Xt(2.2)}>LAST LIGHT</div>`,
             },
           ],
           Kl = Be('#ui');
@@ -24352,7 +24334,7 @@ void main() {
             (siteB.visible = !1),
             (altLander.visible = !1),
             Be('#scenario-a') && Be('#scenario-a').classList.add('is-active'),
-            Be('#scenario-b') && Be('#scenario-b').classList.remove('is-active'),
+            Be('#scenario-b') && Be('#scenario-b').classList.add('is-active'),
             (Be('#msg').style.opacity = 0),
             (Be('#tt').style.opacity = 0),
             (Wl = 0),
@@ -24365,9 +24347,7 @@ void main() {
                 ((Wl = 1),
                   (ji.visible = !0),
                   (siteB.visible = !0),
-                  (altLander.visible = !0),
-                  Be('#scenario-a').classList.remove('is-active'),
-                  Be('#scenario-b').classList.add('is-active'));
+                (altLander.visible = !0));
               })));
         }
         function Xg() {
